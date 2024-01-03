@@ -19,8 +19,8 @@ model User {
   following Follow[] @relation("Following")
   followedBy Follow[] @relation("FollowedBy")
 
-  // blocking Block[] @relation("Blocking")
-  // blockedBy Block[] @relation("BlockedBy")
+  blocking Block[] @relation("Blocking")
+  blockedBy Block[] @relation("BlockedBy")
 
   // stream Stream?
 
@@ -69,15 +69,15 @@ model Follow {
   @@index([followingId])
 }
 
-// model Block {
-//   id String @id @default(uuid())
-//   blockerId String
-//   blockedId String
+model Block {
+  id String @id @default(uuid())
+  blockerId String
+  blockedId String
 
-//   blocker User @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
-//   blocked User @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
+  blocker User @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked User @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
 
-//   @@unique([blockerId, blockedId])
-//   @@index([blockerId])
-//   @@index([blockedId])
-// }
+  @@unique([blockerId, blockedId])
+  @@index([blockerId])
+  @@index([blockedId])
+}
