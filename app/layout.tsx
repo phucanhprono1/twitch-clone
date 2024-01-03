@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { dark } from '@clerk/themes'
+import { Toaster } from 'sonner'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
           forcedTheme="dark"
           storageKey="twitchie-theme"
           >
+            <Toaster theme="light" position="bottom-center"/>
           {children}
         </ThemeProvider>
         </body>
