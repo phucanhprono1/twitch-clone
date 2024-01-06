@@ -2,50 +2,49 @@ import { db } from "@/lib/db";
 import { getSelf } from "@/lib/auth-service";
 
 export const getFollowedUsers = async () => {
-  try {
-    const self = await getSelf();
+    try {
+        const self = await getSelf();
 
-    const followedUsers = db.follow.findMany({
-      where: {
-        followerId: self.id,
-        following: {
-          blocking: {
-            none: {
-              blockedId: self.id,
+        const followedUsers = db.follow.findMany({
+            where: {
+                followerId: self.id,
+                following: {
+                    blocking: {
+                        none: {
+                            blockedId: self.id,
+                        },
+                    },
+                },
             },
-          },
-        },
-      },
-      include: {
-        following: true,
-        // {
-        //   include: {
-        //     stream: {
-        //       select: {
-        //         isLive: true,
-        //       },
-        //     },
-        //   },
-        // },
-      },
-    //   orderBy: [
-    //     {
-    //       following: {
-    //         stream: {
-    //           isLive: "desc",
-    //         },
-    //       },
-    //     },
-    //     {
-    //       createdAt: "desc"
-    //     },
-    //   ]
-    });
+            include: {
+                following: {
+                    include: {
+                        stream: {
+                            select: {
+                                isLive: true,
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: [
+                {
+                    following: {
+                        stream: {
+                            isLive: "desc",
+                        },
+                    },
+                },
+                {
+                    createdAt: "desc"
+                },
+            ]
+        });
 
-    return followedUsers;
-  } catch {
-    return [];
-  }
+        return followedUsers;
+    } catch {
+        return [];
+    }
 };
 
 export const isFollowingUser = async (id: string) => {
@@ -86,7 +85,6 @@ export const followUser = async (id: string) => {
 
     if (!otherUser) {
         throw new Error("User not found");
-        console.log("User not found");
     }
 
     if (otherUser.id === self.id) {
