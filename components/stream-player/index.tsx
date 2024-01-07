@@ -8,6 +8,8 @@ import { useChatSidebar } from "@/store/use-chat-sidebar";
 import { Chat } from "./chat";
 import { ChatToggle } from "./chat-toggle";
 import { cn } from "@/lib/utils";
+import { Header } from "./header";
+import { InfoCard } from "./info-card";
 
 type CustomUser = {
     id: string;
@@ -71,6 +73,20 @@ export const StreamPlayer = async ({
                     <Video
                         hostName={user.username}
                         hostIdentity={user.id}
+                    />
+                    <Header
+                        hostName={user.username}
+                        hostIdentity={user.id}
+                        viewerIdentity={identity}
+                        imageUrl={user.imageUrl}
+                        isFollowing={isFollowing}
+                        name={stream.name}
+                    />
+                    <InfoCard
+                        hostIdentity={user.id}
+                        viewerIdentity={identity}
+                        name={stream.name}
+                        thumbnailUrl={stream.thumbnailUrl}
                     />
                 </div>
                 <div
