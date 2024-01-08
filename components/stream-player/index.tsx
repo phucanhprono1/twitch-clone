@@ -44,9 +44,7 @@ export const StreamPlayer = async ({
         name,
         identity,
     } = useViewerToken(user.id);
-    console.log("user: " + user.id);
-    console.log("token: " + token);
-    console.log("name: " + name);
+
     const { collapsed } = useChatSidebar((state) => state);
     if (!token || !name || !identity) {
         return (
